@@ -1,0 +1,36 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Chart of Accounts";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Account Name</th>
+            <th>Parent Account</th>
+            <th>Type</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var account in Model.Accounts)
+        {
+            <tr>
+                <td>@account.AccountCode</td>
+                <td>@account.AccountName</td>
+                <td>@(account.ParentAccountId.HasValue ? Model.Accounts.FirstOrDefault(a => a.AccountId == account.ParentAccountId)?.AccountName : "N/A")</td>
+                <td>@account.AccountType</td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@account.AccountId" class="btn btn-sm btn-primary">Edit</a>
+                    <a asp-page="./Delete" asp-route-id="@account.AccountId" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="./Create" class="btn btn-primary">Create New Account</a>
